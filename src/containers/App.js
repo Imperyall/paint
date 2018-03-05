@@ -5,7 +5,7 @@ import * as actionsMap from '../actions';
 import GoogleMap from '../components/GoogleMap';
 import { Button, List, Checkbox, Header, Segment, Input } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
-import { SketchPicker } from 'react-color';
+// import { SketchPicker } from 'react-color';
 
 class App extends React.Component {
   constructor() {
@@ -26,7 +26,7 @@ class App extends React.Component {
     this.props.getZones();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props.shape !== prevProps.shape) {
       this.handleShape(this.props.shape);
     }
@@ -62,7 +62,7 @@ class App extends React.Component {
   }
 
   handleShape(data) {
-    this.setState(prevState => {
+    this.setState(() => {
       if (!data.length) return { selectShapes: [] };
 
       let result = [];
@@ -124,12 +124,12 @@ class App extends React.Component {
               shapes={this.props.shapes} />
           </div>
           <div id="right_block">
-            <Header as='h3' attached='top'>
+            <Header as="h3" attached="top">
               { !shape_length ? "Зоны отсутствуют" : "Зоны" }
             </Header>
             <Segment className="shapes_list" attached>
               { shape_length ?
-              <List divided verticalAlign='middle'>
+              <List divided verticalAlign="middle">
                 {this.props.shapes.map(elem => (
                   <List.Item className="shape_line" key={elem.id}>
                     <List.Content>
@@ -225,6 +225,9 @@ App.propTypes = {
   handleValue:   PropTypes.func,
   changeDraw:    PropTypes.func,
   dragEnd:       PropTypes.func,
+  newLabel:      PropTypes.func,
+  getZones:      PropTypes.func,
+  saveZones:     PropTypes.func, 
   shape:         PropTypes.array,
   shapes:        PropTypes.array,
   drawingMode:   PropTypes.string,

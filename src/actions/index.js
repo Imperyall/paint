@@ -12,107 +12,42 @@ import {
   HANDLE_VALUE,
 } from '../constants/actionTypes';
 
-export function getZones(params) {
-  return (dispatch) => {
-    return axios.post(`${core_url}/geozone/get/`, { params })
-      .then((res) => {
-        dispatch({
-          type: INIT_STATE, 
-          payload: res.data
-        });
-      });
-  };
-}
+export const getZones = () => dispatch => {
+  return axios.get(`${core_url}/geozone/get/`)
+    .then(res => dispatch({ type: INIT_STATE, payload: res.data }))
+    .catch(res => console.log(res));
+};
 
-export function saveZones(params) {
-  return (dispatch) => {
-    let data = [];
+export const saveZones = params => dispatch => {
+  let data = [];
 
-    for (let elem of params) {
-      data.push({
-        id: elem._id,
-        title: elem.label,
-        value: elem.value || "1",
-        enabled: elem.enabled,
-        polygon: elem.path
-      });
-    }
-
-    return axios.post(`${core_url}/geozone/save/`, data)
-      .then((res) => {
-        console.log(res.data);
-      });
-  };
-}
-
-export function changeDraw(mode) {
-  return (dispatch) => {
-    dispatch({
-      type: CHANGE_DRAW_MODE, 
-      payload: mode
+  for (let elem of params) {
+    data.push({
+      id: elem._id,
+      title: elem.label,
+      value: elem.value || "1",
+      enabled: elem.enabled,
+      polygon: elem.path
     });
-  };
-}
+  }
 
-export function newShape(shape) {
-  return (dispatch) => {
-    dispatch({
-      type: NEW_SHAPE, 
-      payload: shape
-    });
-  };
-}
+  return axios.post(`${core_url}/geozone/save/`, data)
+    .then(() => dispatch(getZones()))
+    .catch(res => console.log(res));
+};
 
-export function selectShape(data) {
-  return (dispatch) => {
-    dispatch({
-      type: SELECT_SHAPE, 
-      payload: data
-    });
-  };
-}
+export const changeDraw = mode => dispatch => dispatch({ type: CHANGE_DRAW_MODE, payload: mode });
 
-export function deleteShape(id) {
-  return (dispatch) => {
-    dispatch({
-      type: DELETE_SHAPE, 
-      payload: id
-    });
-  };
-}
+export const newShape = shape => dispatch => dispatch({ type: NEW_SHAPE, payload: shape });
 
-export function dragEnd(params) {
-  return (dispatch) => {
-    dispatch({
-      type: DRAG_END, 
-      payload: params
-    });
-  };
-}
+export const selectShape = data => dispatch => dispatch({ type: SELECT_SHAPE, payload: data });
 
-export function newLabel(id, label) {
-  return (dispatch) => {
-    dispatch({
-      type: NEW_LABEL, 
-      payload: { id, label }
-    });
-  };
-}
+export const deleteShape = id => dispatch => dispatch({ type: DELETE_SHAPE, payload: id });
 
-export function handleEnabled(id) {
-  return (dispatch) => {
-    dispatch({
-      type: HANDLE_ENABLED, 
-      payload: id
-    });
-  };
-}
+export const dragEnd = params => dispatch => dispatch({ type: DRAG_END, payload: params });
 
-export function handleValue(value) {
-  return (dispatch) => {
-    dispatch({
-      type: HANDLE_VALUE, 
-      payload: value
-    });
-  };
-}
+export const newLabel = (id, label) => dispatch => dispatch({ type: NEW_LABEL, payload: { id, label } });
+
+export const handleEnabled = id => dispatch => dispatch({ type: HANDLE_ENABLED, payload: id });
+
+export const handleValue = value => dispatch => dispatch({ type: HANDLE_VALUE, payload: value });

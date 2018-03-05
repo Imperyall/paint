@@ -1,5 +1,5 @@
 import React from "react";
-import { withGoogleMap, GoogleMap, Polygon, Circle } from "react-google-maps";
+import { withGoogleMap, GoogleMap, Polygon } from "react-google-maps";
 import DrawingManager from "react-google-maps/lib/components/drawing/DrawingManager";
 
 // import { compose, withProps } from "recompose";
