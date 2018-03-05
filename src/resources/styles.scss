@@ -1,0 +1,69 @@
+/* Variables */
+/*$vin-blue: #5bb7db;
+$vin-green: #60b044;
+$vin-red: #ff0000;*/
+
+/* Styles */
+body {
+  /*font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+  font-size: 16px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  line-height: 1.4em;
+  color: #4d4d4d;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  font-weight: 400;
+}
+#container {
+  padding: 1vh 1vw;
+}
+#top_block {
+  display: flex;
+}
+#left_block {
+  flex: 1;
+  flex-basis: 60%;
+}
+#right_block {
+  flex: 1;
+  padding-left: 1vw;
+}
+#down_block {
+  display: flex;
+  flex: 1;
+  padding-top: 1vh;
+}
+.down_block_segment {
+  width: 100%;
+  height: 26vh;
+}
+.shape_line {
+  display: grid!important;
+  grid-template-columns: 1fr 10fr 1fr;
+  grid-gap: 10px;
+}
+.shape_line > div {
+  align-self: center;
+  padding: 10px 0 0;
+}
+.shapes_list {
+  padding: 5px 10px!important;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+.long_label {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.shape_selected {
+  font-weight: 500;
+  color: red;
+  font-size: 16px;
+}
+.pointer {
+  cursor: pointer;
+}
