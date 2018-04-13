@@ -7,32 +7,42 @@ import {
   DELETE_SHAPE,
   CHANGE_DRAW_MODE,
   DRAG_END,
-  NEW_LABEL,
   HANDLE_ENABLED,
-  HANDLE_VALUE,
+  HANDLE_PARAMS,
+  SAVE_PARAMS,
 } from '../constants/actionTypes';
 
-export const getZones = () => dispatch => {
-  return axios.get(`${core_url}/geozone/get/`)
-    .then(res => dispatch({ type: INIT_STATE, payload: res.data }))
+export const getZones = (purpose, config_id) => dispatch => {
+  return axios.get(`${core_url}/geozone/get/`, { params: { purpose, config_id }})
+    .then(res => dispatch({ type: INIT_STATE, payload: Array.isArray(res.data) ? res.data : [] }))
     .catch(res => console.log(res));
 };
 
-export const saveZones = params => dispatch => {
-  let data = [];
+export const saveZones = (params, purpose, config_id) => dispatch => {
+  let zones = [], active = false;
 
-  for (let elem of params) {
-    data.push({
+  for (const elem of params) {
+    zones.push({
       id: elem._id,
       title: elem.label,
       value: elem.value || "1",
       enabled: elem.enabled,
-      polygon: elem.path
+      polygon: elem.path,
+      // purpose: elem.purpose,
+      fromDate: elem.fromDate,
+      toDate: elem.toDate,
+      periodic: elem.periodic
     });
+
+    if (elem.enabled) active = true;
   }
 
-  return axios.post(`${core_url}/geozone/save/`, data)
-    .then(() => dispatch(getZones()))
+  return axios.post(`${core_url}/geozone/save/`, { zones, purpose, config_id })
+    .then(() => {
+      dispatch({ type: SAVE_PARAMS });
+      window.parent.onModalClose(purpose, active);
+      //if (config_id) window.location.href = `/config/${config_id}/edit`; else window.history.back();
+    })
     .catch(res => console.log(res));
 };
 
@@ -46,8 +56,6 @@ export const deleteShape = id => dispatch => dispatch({ type: DELETE_SHAPE, payl
 
 export const dragEnd = params => dispatch => dispatch({ type: DRAG_END, payload: params });
 
-export const newLabel = (id, label) => dispatch => dispatch({ type: NEW_LABEL, payload: { id, label } });
-
 export const handleEnabled = id => dispatch => dispatch({ type: HANDLE_ENABLED, payload: id });
 
-export const handleValue = value => dispatch => dispatch({ type: HANDLE_VALUE, payload: value });
+export const handleParams = params => dispatch => dispatch({ type: HANDLE_PARAMS, payload: params });

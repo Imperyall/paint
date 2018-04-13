@@ -19,6 +19,7 @@ body {
 }
 #container {
   padding: 1vh 1vw;
+  position: relative;
 }
 #top_block {
   display: flex;
@@ -38,7 +39,7 @@ body {
 }
 .down_block_segment {
   width: 100%;
-  height: 26vh;
+  height: 18vh;
 }
 .shape_line {
   display: grid!important;
@@ -67,3 +68,43 @@ body {
 .pointer {
   cursor: pointer;
 }
+div.ui.input, div.ui.slider {
+  margin-right: 3px;
+  height: 36px;
+}
+div.ui.slider {
+  padding: 10px;
+}
+.save_button {
+  right: 0;
+  position: absolute;
+}
+.content {
+  margin-left: 0!important;
+}
+.div_fields {
+  max-height: 33px;
+  margin-left: 0!important;
+}
+div .checkbox {
+  margin: 0;
+}
+.title_style {
+  position: absolute;
+  top: 18px;
+  left: 135px;
+  z-index: 110;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 2px;
+  padding: 3px 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+/*.ui.input input {
+  height: 36px;
+  margin-right: 3px;
+}
+.ui.slider input[type=checkbox] {
+  margin-right: 10px;
+}*/

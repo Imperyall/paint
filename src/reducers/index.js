@@ -15,18 +15,13 @@ import {
   DELETE_SHAPE,
   CHANGE_DRAW_MODE,
   DRAG_END,
-  NEW_LABEL,
   HANDLE_ENABLED,
-  HANDLE_VALUE,
+  HANDLE_PARAMS,
 } from '../constants/actionTypes';
 
-const DEFAULT_STATE = {
-  shapes: [],
-  shape: [],
-  drawingMode: null
-};
+import { getRandomKey } from '../utils';
 
-export default function reducer(state = DEFAULT_STATE, action) {
+export default function reducer(state, action) {
   switch (action.type) {
     case INIT_STATE: {
       let newState = [];
@@ -34,13 +29,17 @@ export default function reducer(state = DEFAULT_STATE, action) {
       for (let elem of action.payload) {
         newState.push({
           _id: elem.id,
-          id: elem.id || +new Date(), 
+          id: elem.id || getRandomKey(), 
           type: "polygon",
           path: elem.polygon,
           value: elem.value,
           enabled: elem.enabled,
           editable: false,
           label: elem.title,
+          // purpose: state.purpose,
+          fromDate: elem.fromDate == "0000-0-0" ? '' : elem.fromDate,
+          toDate: elem.toDate == "0000-0-0" ? '' : elem.toDate,
+          periodic: elem.periodic,
         });
       }
 
@@ -168,17 +167,17 @@ export default function reducer(state = DEFAULT_STATE, action) {
       return newState;
     }
 
-    case NEW_LABEL: { //Новое имя зоны
-      return {
-        ...state,
-        shapes: [ 
-          ...state.shapes.map(i => ({ 
-            ...i, 
-            label: i.id === action.payload.id ? action.payload.label : i.label,
-          })), 
-        ],
-      };
-    }
+    // case NEW_LABEL: { //Новое имя зоны
+    //   return {
+    //     ...state,
+    //     shapes: [ 
+    //       ...state.shapes.map(i => ({ 
+    //         ...i, 
+    //         label: i.id === action.payload.id ? action.payload.label : i.label,
+    //       })), 
+    //     ],
+    //   };
+    // }
 
     case HANDLE_ENABLED: { //Активная/Неактивная зона
       return {
@@ -192,14 +191,25 @@ export default function reducer(state = DEFAULT_STATE, action) {
       };
     }
 
-    case HANDLE_VALUE: { //Изменить значение
+    case HANDLE_PARAMS: { //Изменить значение
+      const params = action.payload,
+            ifMore = state.shape.length > 1;
+
       return {
         ...state,
         shapes: [ 
-          ...state.shapes.map(i => ({ 
-            ...i, 
-            value: state.shape.indexOf(i.id) !== -1 ? action.payload : i.value,
-          })), 
+          ...state.shapes.map(i => { 
+            const ifSelect = state.shape.indexOf(i.id) !== -1;
+
+            return {
+              ...i, 
+              label: ifSelect && !ifMore ? params.label : i.label,
+              value: ifSelect ? params.value : i.value,
+              fromDate: ifSelect ? params.fromDate : i.fromDate,
+              toDate: ifSelect ? params.toDate : i.toDate,
+              periodic: ifSelect ? params.periodic : i.periodic,
+            };
+          }), 
         ],
       };
     }

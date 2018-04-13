@@ -4,6 +4,13 @@ import rootReducer from '../reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 
+const DEFAULT_STATE = {
+  shapes: [],
+  shape: [],
+  drawingMode: null,
+  purpose: '',
+  config_id: 0,
+};
 
 function configureStoreProd(initialState) {
   const middlewares = [
@@ -14,7 +21,8 @@ function configureStoreProd(initialState) {
     thunk,
   ];
 
-  return createStore(rootReducer, initialState, compose(
+  const newState = { ...DEFAULT_STATE, ...initialState};
+  return createStore(rootReducer, newState, compose(
     applyMiddleware(...middlewares)
     )
   );
@@ -42,9 +50,10 @@ function configureStoreDev(initialState) {
     latency: 0
   };
 
+  const newState = { ...DEFAULT_STATE, ...initialState};
   //const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // add support for Redux dev tools
   const composeEnhancers = composeWithDevTools(options);
-  const store = createStore(rootReducer, initialState, composeEnhancers(
+  const store = createStore(rootReducer, newState, composeEnhancers(
     applyMiddleware(...middlewares)
     )
   );

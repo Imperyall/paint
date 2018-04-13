@@ -39,7 +39,7 @@ export default withGoogleMap(props => (
               key={element.id}
               ref={ref => current = ref}
               // onClick={() => console.log(ctrl)}//props.onSelect(element.id, true, ctrl)}
-              onMouseDown={e => props.onSelect({ shape: element.id, ctrl: e.Ga ? e.Ga.ctrlKey : true, force: e.path === 0 })}
+              onMouseDown={e => props.onSelect({ shape: element.id, ctrl: e.Fa ? e.Fa.ctrlKey : false, force: e.path === 0 })}
               options={{
                 strokeColor: color,
                 fillColor: color,

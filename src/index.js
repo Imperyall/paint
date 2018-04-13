@@ -5,7 +5,9 @@ import configureStore from './store/configureStore';
 import App from './containers/App';
 import './resources/styles.scss'; // Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.
 require('./resources/favicon.ico'); // Tell webpack to load favicon.ico
-const store = configureStore();
+
+import { params } from './utils';
+const store = configureStore(params);
 
 render(
   <AppContainer>

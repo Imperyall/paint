@@ -19,8 +19,8 @@ export default {
   entry: path.resolve(__dirname, 'src/index'),
   target: 'web',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    path: path.resolve(__dirname, '../nav/waypoints/static/geozone/'),
+    publicPath: '/static/geozone/',
     // filename: '[name].[chunkhash].js'
     filename: '[name].js'
   },
@@ -32,7 +32,7 @@ export default {
     new webpack.DefinePlugin(GLOBALS),
 
     // Generate an external css file with a hash in the filename
-    new ExtractTextPlugin('[name].[contenthash].css'),
+    new ExtractTextPlugin('[name].css'),
 
     // Generate HTML file that contains references to generated bundles. See here for how this works: https://github.com/ampedandwired/html-webpack-plugin#basic-usage
     new HtmlWebpackPlugin({
