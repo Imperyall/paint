@@ -1,4 +1,6 @@
-export const core_url = 'http://localhost:8000';
+// export const core_url = 'http://localhost:8000';
+
+export const core_url = 'http://' + location.hostname + ':8000';
 //export default 'http://nav.kopt.org:8010';
 
 // export const core_url = "http://10.10.77.7:8000";
