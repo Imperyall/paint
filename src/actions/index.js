@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { core_url } from '../constants/baseURL';
+import core_url from '../constants/baseURL';
 import {
   INIT_STATE,
   NEW_SHAPE,
